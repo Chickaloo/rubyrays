@@ -11,43 +11,66 @@ make programming an otherwise complicated process
 much, much faster and easier.
 =end
 
-require 'ruby2d'
+require 'gosu'
 
-require_relative 'lib/config'
-require_relative 'lib/debug'
-require_relative 'lib/controls'
+$screen_w = 640
+$screen_h = 480
+$line_max = Math.sqrt($screen_w*$screen_w + $screen_h*$screen_h)
 
-$tick = 0
-$debug = true
-#d = Debug.new
-line = Line.new(
-  x1: 0, y1: 0,
-  x2: 0, y2: 0,
-  width: 5,
-  color: [1, 1, 1, 1],
-  z: 100
-)
-
-update do
-  # set background: [Math.sin(tick.to_f/100%1), Math.sin(tick.to_f/100%1), Math.sin(tick.to_f/100%1), 1]
-  if $debug
-    $texts[0].text = 'FPS: ' + get(:fps).to_s
-    if get(:fps).to_i > 50
-      $texts[0].color = 'green'
-    else
-      $texts[0].color = 'red'
-    end
-
-    mx = get(:mouse_x).to_s
-    my = get(:mouse_y).to_s
-
-    $texts[1].text = 'Mouse: ' + mx + ' ' + my
+class Vector
+  def initialize(nx, ny, xdir, ydir)
+    @x = nx
+    @y = ny
+    @dx = xdir
+    @dy = ydir
+    @color = Gosu::Color.argb(0xff_808080)
   end
 
-  line.x2 = get(:mouse_x)
-  line.y2 = get(:mouse_y)
+  def set_origin(nx, ny)
+    @x = nx
+    @y = ny
+  end
 
-  $tick += 1
+  def set_direction(mx, my)
+    # puts mx.to_s + " " + my.to_s
+    @dx = (mx-@x)
+    @dy = (my-@y)
+   end
+
+  def draw
+    len = Math.sqrt(@dy*@dy + @dx*@dx)/$line_max
+
+    end_x = @x + (@dx/len)
+    end_y = @y + (@dy/len)
+    Gosu.draw_line(@x, @y, @color, end_x, end_y, @color)
+  end
 end
 
-show
+class RubyRays < Gosu::Window
+  def initialize
+    @rays = [Vector.new(50,50,1,1)]
+    super 640, 480
+
+  end
+
+  def needs_cursor?
+    return true
+  end
+
+  def update
+    self.caption = self.mouse_x.to_s + " " + self.mouse_y.to_s
+    for r in @rays do
+      r.set_direction(self.mouse_x, self.mouse_y)
+    end
+  end
+
+  def draw
+    for r in @rays do
+      r.draw
+    end
+    Gosu.draw_line(0, 0, Gosu::Color.argb(0xff_800000), self.mouse_x, self.mouse_y, Gosu::Color.argb(0xff_800000))
+  end
+
+end
+
+RubyRays.new.show

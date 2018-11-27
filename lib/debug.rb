@@ -1,4 +1,5 @@
 require 'ruby2d'
+require 'ruby2d/window'
 
 $texts = []
 
@@ -15,19 +16,17 @@ $texts[1] = Text.new(
 )
 
 class Debug
-  def output_debug()
-    if $debug
-      $texts[0].text = 'FPS: ' + get(:fps).to_s
-      if get(:fps).to_i > 50
-        $texts[0].color = 'green'
-      else
-        $texts[0].color = 'red'
-      end
-
-      mx = get(:mouse_x).to_s
-      my = get(:mouse_y).to_s
-
-      $texts[1].text = 'Mouse: ' + mx + ' ' + my
+  def tick()
+    $texts[0].text = 'FPS: ' + Ruby2D::Window.get(:fps).to_s
+    if Ruby2D::Window.get(:fps).to_i > 50
+      $texts[0].color = 'green'
+    else
+      $texts[0].color = 'red'
     end
+
+    mx = get(:mouse_x).to_s
+    my = get(:mouse_y).to_s
+
+    $texts[1].text = 'Mouse: ' + mx + ' ' + my
   end
 end
