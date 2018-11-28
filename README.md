@@ -4,7 +4,7 @@ This repository contains the source code for a 2D Ray Tracing simulation. It is 
 
 This project is built on Gosu.
 
-### Build
+## Build
 
 To build this project, Ruby and Gosu are required.
 
@@ -20,7 +20,7 @@ Press y when prompted.
 6. Run our files with `ruby /path/main.rb`! You may need to fish around to find the right path. Mine was on `/c/Users/chickaloo/Documents/rubyrays/libmain.rb`. Alternatively, you may CD (Change Directory) to the proper path using `cd /path/to/files`, and then type `ruby main.rb` to run.
 7. (optional) Add the above command as a shortcut so you can avoid retyping every path using `echo 'alias rb="ruby /c/Users/chickaloo/Documents/rubyrays/lib/main.rb"'`. Replace rb with the desired shortcut (make sure it's unused!) and the path with your own. Then, type `source .bashrc`, and then you can begin to use your code.
 
-###Controls
+## Controls
 
 Because a GUI was infeasible with project time constraints, a hotkey system was used instead.
 
@@ -36,7 +36,7 @@ Because a GUI was infeasible with project time constraints, a hotkey system was 
      ]      - Rotate shape clockwise (right)
      Arrows - Nudge Shape
 
-### Contribute
+## Contribute
 
 The following are objectives for this project -
 
