@@ -21,6 +21,11 @@ class WorldObject
     end
   end
 
+  attr_reader :center_x
+  attr_reader :center_y
+  attr_reader :color
+
+  # contains? returns true or false depending on if the point is within self
   def contains?(mx, my)
     dx = mx-@center_x
     dy = my-@center_y
@@ -32,19 +37,71 @@ class WorldObject
     end
   end
 
-  def intersection?(ox, oy, dx, dy)
+  # get_intersections returns a list of Collision objects.
+  def get_intersections(m1, b1, dx, dy)
 
-    return true
-  end
+    intersections = []
 
-  def draw
+    # check
     for i in 0..@sides do
       sx = @points_x[i]
       sy = @points_y[i]
       ex = @points_x[(i+1)%@sides]
       ey = @points_y[(i+1)%@sides]
+      len = Math.sqrt((ex-sx)**2 + (ey-sy)**2)
+      m2 = (ey-sy)/(ex-sx)
+      b2 = sy-(m2*sx)
 
+      # If collision is possible
+      if !(m2 == m1 || m2 == -m1)
+        ix = (b2-b1) / (-m2+m1)
+        iy = b1 + (m1*ix)
+        dist_s = Math.sqrt((ix-sx)**2 + (iy-sy)**2)
+        dist_e = Math.sqrt((ix-ex)**2 + (iy-ey)**2)
+        if !(dist_s > len) && !(dist_e > len)
+
+          # calculate normal
+          ay = (ey-sy)
+          ax = (ex-sx)
+          div = ay
+          if ax > ay
+            div = ax
+          end
+          nx = ay/div
+          ny = -ax/div
+
+          # Flip normal for special case
+
+          if ey < sy && ex < sx
+            nx = -nx
+            ny = -ny
+          end
+
+          # calculate direction
+
+          intersections.push(Collision.new(ix, iy, nx, ny, dx, dy))
+        end
+        # a polygon has a maximum of two intersections. Save some time by skipping
+        if intersections.length == 2
+          break
+        end
+      end
+    end
+
+    return intersections
+  end
+
+  def draw
+    for i in 0..@sides-1 do
+      sx = @points_x[i]
+      sy = @points_y[i]
+      ex = @points_x[(i+1)%@sides]
+      ey = @points_y[(i+1)%@sides]
+
+      #m2 = (ey-sy)/(ex-sx)
+      #b2 = sy-(m2*sx)
       Gosu.draw_line(sx, sy, @color, ex, ey, @color, 50)
+      #Gosu.draw_line(sx, sy, @color, 0, b2, @color, 50) Slope line debugging
     end
   end
 

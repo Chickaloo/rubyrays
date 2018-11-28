@@ -33,5 +33,17 @@ w - Spawn Triangle at cursor location
 e - Spawn Square at cursor location
 r - Randomize shape color  at cursor location
 t - Grow shape at cursor location
+y - Rotate shape counterclockwise (left)
+u - Rotate shape clockwise (right)
 g - Shrink shape at cursor location
 h - Show Help Menu
+
+###Contribute
+
+The following are objectives for this project -
+
+[] - Convert Debug system into Decorator pattern
+[] - Create shape inheritance
+[] - Create shape management system for collisions and things
+[] - Create proper ray system
+[] - Get Ray Trace Bouncing working
