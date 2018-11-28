@@ -17,8 +17,8 @@ require_relative 'vector'
 require_relative 'worldobject'
 require_relative 'window'
 
-$screen_w = 640
-$screen_h = 480
+$screen_w = 1280
+$screen_h = 960
 $rng = Random.new
 $line_max = Math.sqrt($screen_w*$screen_w + $screen_h*$screen_h)
 

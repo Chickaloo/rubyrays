@@ -19,6 +19,7 @@ class Vector
   attr_reader :y
   attr_reader :dx
   attr_reader :dy
+  attr_reader :color
 
   def set_origin(nx, ny)
     @x = nx
@@ -42,8 +43,7 @@ class Vector
       @ex = @x + (@dx/len)
       @ey = @y + (@dy/len)
     end
-    Gosu.draw_line(@x, @y, @color, @ex, @ey, @color)
-
+    Gosu.draw_line(@x, @y, @color, @ex, @ey, Gosu::Color.new(@color.alpha*0.8,@color.red, @color.green, @color.blue))
     # Reset endpoint
     @ex = -999
     @ey = -999

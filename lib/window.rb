@@ -82,43 +82,24 @@ class RubyRays < Gosu::Window
     @source.set_direction(self.mouse_x, self.mouse_y)
     current_ray = @source
     # Specular reflection: bounce 8 times
-    for i in 0..8 do
+    for i in 0..6 do
       collision = current_ray.trace(@objects)
       if collision.exists?
         collision.set_reflection
-        @collisions.push(collision)
-        current_ray = Vector.new(collision.x, collision.y, collision.rx, collision.ry, Gosu::Color.new(255,255,255,255))
+        current_ray = Vector.new(collision.x, collision.y, collision.rx, collision.ry, Gosu::Color.new(current_ray.color.alpha*0.8,255,255,255))
         @rays.push(current_ray)
-        #current_ray = Vector.new(collision.x, collision.y, collision.rx, collision.ry, Gosu::Color.new(100,0,255,0))
-        #@rays.push(current_ray)
-        #new_ray = Vector.new(collision.x, collision.y, collision.nx, collision.ny, Gosu::Color.new(100,255,0,0))
+        #new_ray = Vector.new(collision.x, collision.y, collision.nx, collision.ny, Gosu::Color.new(50,255,0,0))
         #@rays.push(new_ray)
       end
     end
-    #@source.trace
-    #self.caption = self.mouse_x.to_s + " " + self.mouse_y.to_s
+
+    collision = current_ray.trace(@objects)
+    
     for r in @rays do
-      #r.set_direction(self.mouse_x, self.mouse_y)
     end
 
     for o in @objects do
 
-      # Debug -
-      # If intersection of object and mouse at 90 degrees is less than
-      # object radius away, draw a green line
-
-      #      s_o_x = @source.x - o.center_x
-      #      s_o_y = @source.y - o.center_y
-      #      div = s_o_y
-      #      if s_o_x > s_o_y
-      #        div = s_o_x
-      #      end
-      #      mx = 50*s_o_y/div
-      #      my = 50*s_o_x/div
-      #      m = s_o_x/s_o_y
-      #      b = o.center_y + m*o.center_x
-      #Gosu.draw_line(o.center_x, o.center_y, Gosu::Color::RED, o.center_x+mx, o.center_y-my, Gosu::Color::GREEN, 50)
-      #Gosu.draw_line(o.center_x, o.center_y, Gosu::Color::RED, 0, b, Gosu::Color::RED, 50)
     end
   end
 
