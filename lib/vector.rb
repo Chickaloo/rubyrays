@@ -21,6 +21,7 @@ class Vector
   attr_reader :dy
   attr_reader :color
 
+  # set_origin changes the source position
   def set_origin(nx, ny)
     @x = nx
     @y = ny
@@ -28,6 +29,7 @@ class Vector
     @b = @y-(@m*@x)
   end
 
+  # set_direction adjusts the slope
   def set_direction(mx, my)
     @dx = (mx-@x)
     @dy = (my-@y)
@@ -56,6 +58,7 @@ class Vector
     # Find all collisions
     collisions = []
     for obj in objects do
+      # TODO: Refactor
       obj_col = obj.get_intersections(@m, @b, @dx, @dy)
       for col in obj_col do
         collisions.push(col)
@@ -72,11 +75,13 @@ class Vector
 
         cx = collisions[i].x
         cy = collisions[i].y
+
+        # If we can reasonably expect the object to be in front of us, check it
         if (@dx <= 0 && cx < @x || @dx >= 0 && cx > @x) && (@dy <= 0 && cy < @y || @dy >= 0 && cy > @y)
 
           xx = collisions[i].x-@x
           yy = collisions[i].y-@y
-          len = Math.sqrt(xx*xx + yy*yy)
+          len = Math.sqrt(xx**2 + yy**2)
           if len < shortest_len
             shortest_len = len
             shortest_i = i
@@ -84,11 +89,12 @@ class Vector
         end
       end
 
+      # If no legal collision was found, report null
       if shortest_i == collisions.length
         return Collision.new
       end
 
-      # Set our endpoint to the shortest collision, and return
+      # Otherwise, set our endpoint to the shortest collision, and return the hit
       hit = collisions[shortest_i]
       @ex = hit.x
       @ey = hit.y

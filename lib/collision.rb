@@ -14,15 +14,19 @@ class Collision
 
   attr_reader :x
   attr_reader :y
-  attr_reader :nx
-  attr_reader :ny
-  attr_reader :rx
-  attr_reader :ry
+  attr_reader :nx # Normal X slope
+  attr_reader :ny # Normal Y slope
+  attr_reader :rx # Reflected X slope
+  attr_reader :ry # Reflected Y slope
 
+  # exists returns if there is a valid collision or not.
+  # Refactor to something not... something not so... quaint (bad).
   def exists?
     return @x != -999
   end
 
+  # Set reflection calculates the reflection and some other parameters for the ray.
+  # This is done seperately to
   def set_reflection
     # Reverse incoming slope to ensure correct answer
     dln = Math.sqrt(@ix**2 + @iy**2)
@@ -35,10 +39,10 @@ class Collision
     @ny = @ny/ln
 
     # shift the collision up along the norm a tiny bit to prevent penetration
-    @x = @x + 1*@nx
-    @y = @y + 1*@ny
+    @x = @x + 0.1*@nx
+    @y = @y + 0.1*@ny
 
-    # Use the hypotenuse and cos/sin phi to determine outbound rx, ry
+    # r = d - 2*(d.n)*n : Reflected line
     @rx = -(dx - 2*(dx*@nx + dy*@ny)*@nx)
     @ry = -(dy - 2*(dx*@nx + dy*@ny)*@ny)
 

@@ -1,7 +1,7 @@
 #! /usr/bin/ruby
 
 =begin
-Authors - Christopher Kong, Wilson Thai, Sabrina
+Authors - Christopher Kong, Wilson Thai, Maria Cruz
 Professor Amar Raheja
 CS4080 - Programming Languages
 

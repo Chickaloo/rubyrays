@@ -10,9 +10,10 @@ class WorldObject
     end
     @sides = s
     @rotation = rot
+    @color = c
+
     @points_x = []
     @points_y = []
-    @color = c
 
     for i in 0..@sides do
       o = @rotation + (i*(2*Math::PI/@sides))
@@ -25,11 +26,13 @@ class WorldObject
   attr_reader :center_y
   attr_reader :color
 
+  # Alter changes the parameters of the object and refreshes the points.
   def alter(size = 0, rot = 0, pos_x = 0, pos_y = 0)
     @radius = @radius + size
     @center_x = @center_x + pos_x
     @center_y = @center_y + pos_y
     @rotation = @rotation + rot
+
 
     @points_x = []
     @points_y = []

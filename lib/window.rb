@@ -17,6 +17,7 @@ class RubyRays < Gosu::Window
     super $screen_w, $screen_h
   end
 
+  # Refactor
   def button_up(id)
     case id
     when 4  # A: Move source
@@ -62,11 +63,11 @@ class RubyRays < Gosu::Window
       )
     when 38 # Spawn Nonagon
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(160),30,180,Gosu::Color::YELLOW)
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),30,180,Gosu::Color::YELLOW)
       )
-    when 39 # Spawn Nonagon
+    when 39 # Spawn Circle
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(160),30,0,Gosu::Color::CYAN)
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),30,0,Gosu::Color::CYAN)
       )
     end
   end
@@ -124,6 +125,7 @@ class RubyRays < Gosu::Window
     end
   end
 
+  # needs_cursor? toggles system pointer on
   def needs_cursor?
     return true
   end
@@ -131,7 +133,7 @@ class RubyRays < Gosu::Window
   def update
     @source.set_direction(self.mouse_x, self.mouse_y)
     current_ray = @source
-    # Specular reflection: bounce 8 times
+    # Trace the ray
     for i in 0..$max_bounces do
       collision = current_ray.trace(@objects)
       if collision.exists?
@@ -143,14 +145,12 @@ class RubyRays < Gosu::Window
       end
     end
 
+    # Trace it one last time to set the endpoint (if applicable)
     collision = current_ray.trace(@objects)
 
-    for r in @rays do
-    end
-
-    for o in @objects do
-
-    end
+    # BRDF code goes here
+    #for r in @rays do
+    #end
   end
 
   def draw
@@ -158,6 +158,7 @@ class RubyRays < Gosu::Window
     for r in @rays do
       r.draw
     end
+    # Clear rays for next wave
     @rays = []
     for o in @objects do
       o.draw
