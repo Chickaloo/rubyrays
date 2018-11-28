@@ -21,12 +21,19 @@ class RubyRays < Gosu::Window
     case id
     when 4  # A: Move source
       @source.set_origin(mouse_x, mouse_y)
+    when 6  # C: Remove object at cursor
+      $max_bounces = $max_bounces - 1
+      if $max_bounces < -1
+        $max_bounces = -1
+      end
     when 7  # D: Remove object at cursor
       for o in @objects do
         if o.contains?(self.mouse_x, self.mouse_y)
           @objects.delete(o)
         end
       end
+    when 8  # E: Remove object at cursor
+      $max_bounces = $max_bounces + 1
     when 30 # Spawn Circle
     when 31 # Spawn another source...?
     when 32 # Spawn Triangle
@@ -61,17 +68,60 @@ class RubyRays < Gosu::Window
       @objects.push(
         WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(160),30,0,Gosu::Color::CYAN)
       )
-    when 45 # -: Shrink Object
-    when 46 # +: Grow Object
-    when 47 # [: Rotate Object CCW (Left)
-    when 48 # ]: Rotate Object CW (Right)
-    when 79 # R: Nudge Right
-    when 80 # L: Nudge Left
-    when 81 # D: Nudge Down
-    when 82 # U: Nudge Up
-
     end
+  end
 
+  def button_down(id)
+    case id
+    when 45 # -: Shrink Object
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(-5, 0 , 0, 0)
+        end
+      end
+    when 46 # +: Grow Object
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(5, 0 , 0, 0)
+        end
+      end
+    when 47 # [: Rotate Object CCW (Left)
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, -Math::PI/16 , 0, 0)
+        end
+      end
+    when 48 # ]: Rotate Object CW (Right)
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, Math::PI/16, 0, 0)
+        end
+      end
+    when 79 # R: Nudge Right
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, 0 , 5, 0)
+        end
+      end
+    when 80 # L: Nudge Left
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, 0, -5, 0)
+        end
+      end
+    when 81 # D: Nudge Down
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, 0 , 0, 5)
+        end
+      end
+    when 82 # U: Nudge Up
+      for o in @objects do
+        if o.contains?(self.mouse_x, self.mouse_y)
+          o.alter(0, 0 , 0, -5)
+        end
+      end
+    end
   end
 
   def needs_cursor?
@@ -82,7 +132,7 @@ class RubyRays < Gosu::Window
     @source.set_direction(self.mouse_x, self.mouse_y)
     current_ray = @source
     # Specular reflection: bounce 8 times
-    for i in 0..6 do
+    for i in 0..$max_bounces do
       collision = current_ray.trace(@objects)
       if collision.exists?
         collision.set_reflection
@@ -94,7 +144,7 @@ class RubyRays < Gosu::Window
     end
 
     collision = current_ray.trace(@objects)
-    
+
     for r in @rays do
     end
 

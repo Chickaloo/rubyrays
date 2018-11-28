@@ -16,34 +16,38 @@ Installation Steps (Windows)
 `url='https://raw.githubusercontent.com/simple2d/simple2d/master/bin/simple2d.sh'; which curl > /dev/null && cmd='curl -fsSL' || cmd='wget -qO -'; bash <($cmd $url) install`
 Press y when prompted.
 4. Add ruby to the path by pasting `echo 'export PATH=$PATH:/c/Ruby25-x64/bin' >> .bashrc`. Then, type in `source .bashrc`.
-5. Install ruby2d (our first gem) by typing `gem install ruby2d`
-6. Run our files with `ruby /path/main.rb`! You may need to fish around to find the right path. Mine was on `/c/Users/chickaloo/Documents/rubyrays/main.rb`. Alternatively, you may CD (Change Directory) to the proper path using `cd /path/to/files`, and then type `ruby main.rb` to run.
-6b (optional). Add the above command as a shortcut so you can avoid retyping every path using `echo 'alias rb="ruby /c/Users/chickaloo/Documents/rubyrays/main.rb"'`. Replace rb with the desired shortcut (make sure it's unused!) and the path with your own. Then, type `source .bashrc`, and then you can begin to use your code.
+5. Install gosu (our first gem) by typing `gem install gosu`
+6. Run our files with `ruby /path/main.rb`! You may need to fish around to find the right path. Mine was on `/c/Users/chickaloo/Documents/rubyrays/libmain.rb`. Alternatively, you may CD (Change Directory) to the proper path using `cd /path/to/files`, and then type `ruby main.rb` to run.
+6b (optional). Add the above command as a shortcut so you can avoid retyping every path using `echo 'alias rb="ruby /c/Users/chickaloo/Documents/rubyrays/lib/main.rb"'`. Replace rb with the desired shortcut (make sure it's unused!) and the path with your own. Then, type `source .bashrc`, and then you can begin to use your code.
 
 ###Controls
 
 Because a GUI was infeasible with project time constraints, a hotkey system was used instead.
 
-a - Move ray origin
-s - Remove shape at cursor location
-d - Show Debug Text
-f - Toggle mouse tracking
-q - Spawn Circle at cursor location
-w - Spawn Triangle at cursor location
-e - Spawn Square at cursor location
-r - Randomize shape color  at cursor location
-t - Grow shape at cursor location
-y - Rotate shape counterclockwise (left)
-u - Rotate shape clockwise (right)
-g - Shrink shape at cursor location
-h - Show Help Menu
+     a - Move ray origin
+     c - Reduce number of bounces
+     d - Delete shape
+     e - Increase number of bounces
+     0 - Spawn Circle at cursor location
+   3-9 - Spawn Polygon of N sides at cursor location
+     - - Shrink shape at cursor location
+     + - Grow shape at cursor location
+     [ - Rotate shape counterclockwise (left)
+     ] - Rotate shape clockwise (right)
+Arrows - Nudge Shape
 
 ###Contribute
 
 The following are objectives for this project -
 
-[] - Convert Debug system into Decorator pattern
-[] - Create shape inheritance
-[] - Create shape management system for collisions and things
-[] - Create proper ray system
-[] - Get Ray Trace Bouncing working
+[ ] - Convert Debug system into Decorator pattern
+[ ] - Create shape inheritance
+[x] - Create shape management system for collisions and things
+[ ] - Create proper ray system
+[x] - Get Ray Trace Bouncing working
+[ ] - Fix collision bug at 90*i degrees
+[ ] - Add "phong" and other subray effects
+[ ] - Add light sources
+[ ] - Add materials
+[ ] - Add energy system
+[ ] - Optimize

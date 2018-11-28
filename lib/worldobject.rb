@@ -25,6 +25,22 @@ class WorldObject
   attr_reader :center_y
   attr_reader :color
 
+  def alter(size = 0, rot = 0, pos_x = 0, pos_y = 0)
+    @radius = @radius + size
+    @center_x = @center_x + pos_x
+    @center_y = @center_y + pos_y
+    @rotation = @rotation + rot
+
+    @points_x = []
+    @points_y = []
+
+    for i in 0..@sides do
+      o = @rotation + (i*(2*Math::PI/@sides))
+      @points_x.push(@center_x.to_i + (@radius.to_i * Math.cos(o)))
+      @points_y.push(@center_y.to_i + (@radius.to_i * Math.sin(o)))
+    end
+  end
+
   # contains? returns true or false depending on if the point is within self
   def contains?(mx, my)
     dx = mx-@center_x

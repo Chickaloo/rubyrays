@@ -21,5 +21,6 @@ $screen_w = 1280
 $screen_h = 960
 $rng = Random.new
 $line_max = Math.sqrt($screen_w*$screen_w + $screen_h*$screen_h)
+$max_bounces = -1
 
 RubyRays.new.show
