@@ -8,12 +8,11 @@ class RubyRays < Gosu::Window
     @font = Gosu::Font.new(15)
     @rays = []
     @collisions = []
-    @objects = [
-      WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..160),$rng.rand(8),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255)),
-      WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..160),$rng.rand(8),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255)),
-      WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..80),$rng.rand(8),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255)),
-      WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..80),$rng.rand(8),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255)),
-      WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..80),$rng.rand(8),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))]
+    @objects = []
+    for i in 0..5 do
+      @objects.push(
+        WorldObject.new($rng.rand($screen_w),$rng.rand($screen_h),$rng.rand(50..160),$rng.rand(3..10),$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51)))
+    end
     super $screen_w, $screen_h
   end
 
@@ -39,27 +38,27 @@ class RubyRays < Gosu::Window
     when 31 # Spawn another source...?
     when 32 # Spawn Triangle
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),3,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),3,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 33 # Spawn Square
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),4,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),4,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 34 # Spawn Pentagon
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),5,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),5,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 35 # Spawn Hexagon
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),6,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),6,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 36 # Spawn Septagon
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),7,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),7,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 37 # Spawn Octagon
       @objects.push(
-        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),8,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..1)*255,$rng.rand(0..1)*255,$rng.rand(0..1)*255))
+        WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),8,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))
       )
     when 38 # Spawn Nonagon
       @objects.push(
@@ -138,9 +137,9 @@ class RubyRays < Gosu::Window
       collision = current_ray.trace(@objects)
       if collision.exists?
         collision.set_reflection
-        r = current_ray.color.red * (collision.color.red.to_f/255)
-        g = current_ray.color.green * (collision.color.green.to_f/255)
-        b = current_ray.color.blue * (collision.color.blue.to_f/255)
+        r = (current_ray.color.red + (current_ray.color.red * (collision.color.red.to_f/255))) / 2
+        g = (current_ray.color.green + (current_ray.color.green * (collision.color.green.to_f/255))) / 2
+        b = (current_ray.color.blue + (current_ray.color.blue * (collision.color.blue.to_f/255))) / 2
         current_ray = Vector.new(collision.x, collision.y, collision.rx, collision.ry, Gosu::Color.new(current_ray.color.alpha*0.9,r,g,b))
         @rays.push(current_ray)
         #new_ray = Vector.new(collision.x, collision.y, collision.nx, collision.ny, Gosu::Color.new(50,255,0,0))
