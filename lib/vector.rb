@@ -45,7 +45,7 @@ class Vector
       @ex = @x + (@dx/len)
       @ey = @y + (@dy/len)
     end
-    Gosu.draw_line(@x, @y, @color, @ex, @ey, Gosu::Color.new(@color.alpha*0.8,@color.red, @color.green, @color.blue))
+    Gosu.draw_line(@x, @y, @color, @ex, @ey, Gosu::Color.new(@color.alpha*0.9,@color.red, @color.green, @color.blue))
     # Reset endpoint
     @ex = -999
     @ey = -999

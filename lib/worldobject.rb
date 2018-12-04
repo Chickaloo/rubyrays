@@ -1,5 +1,7 @@
 require 'gosu'
 
+# WorldObject represents a spawnable, collidible object.
+# Originally, it was intended for inheritance, but that's a todo now.
 class WorldObject
   def initialize(ctr_x = 0, ctr_y = 0, rad = 20, s = 3, rot = 0, c = Gosu::Color.argb(0xff_808080))
     @center_x = ctr_x
@@ -11,6 +13,9 @@ class WorldObject
     @sides = s
     @rotation = rot
     @color = c
+    if @color.red == 0 && @color.green == 0 && @color.blue == 0
+      @color = Gosu::Color::WHITE
+    end
 
     @points_x = []
     @points_y = []
@@ -98,7 +103,7 @@ class WorldObject
 
           # calculate direction
 
-          intersections.push(Collision.new(ix, iy, nx, ny, dx, dy))
+          intersections.push(Collision.new(ix, iy, nx, ny, dx, dy, @color))
         end
         # a polygon has a maximum of two intersections. Save some time by skipping
         if intersections.length == 2
