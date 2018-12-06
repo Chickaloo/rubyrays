@@ -20,7 +20,8 @@ require_relative 'window'
 $screen_w = 1280
 $screen_h = 960
 $rng = Random.new
-$line_max = Math.sqrt($screen_w*$screen_w + $screen_h*$screen_h)
+$line_max = Math.sqrt($screen_w**2 + $screen_h**2)
 $max_bounces = -1
+$line_thickness = 0.5
 
 RubyRays.new.show

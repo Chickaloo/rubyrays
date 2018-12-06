@@ -34,8 +34,13 @@ class RubyRays < Gosu::Window
       end
     when 8  # E: Remove object at cursor
       $max_bounces = $max_bounces + 1
-    when 30 # Spawn Circle
-    when 31 # Spawn another source...?
+    when 30 # thin out line
+      $line_thickness -= 0.25
+      if $line_thickness < 0.25
+        $line_thickness = 0.25
+      end
+    when 31 # thicken line
+      $line_thickness += 0.25
     when 32 # Spawn Triangle
       @objects.push(
         WorldObject.new(self.mouse_x,self.mouse_y,$rng.rand(50..160),3,$rng.rand(360),Gosu::Color.new(255,$rng.rand(0..5)*51,$rng.rand(0..5)*51,$rng.rand(0..5)*51))

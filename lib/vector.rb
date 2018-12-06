@@ -45,7 +45,12 @@ class Vector
       @ex = @x + (@dx/len)
       @ey = @y + (@dy/len)
     end
-    Gosu.draw_line(@x, @y, @color, @ex, @ey, Gosu::Color.new(@color.alpha*0.9,@color.red, @color.green, @color.blue))
+    #Gosu.draw_line(@x, @y, @color, @ex, @ey, Gosu::Color.new(@color.alpha*0.9,@color.red, @color.green, @color.blue))
+    ddm = Math.sqrt(@dy**2 + @dx**2)
+    draw_x_dir = (-@dy/ddm)*$line_thickness
+    draw_y_dir = (@dx/ddm)*$line_thickness
+    Gosu.draw_quad(@x+draw_x_dir, @y+draw_y_dir, @color, @ex+draw_x_dir, @ey+draw_y_dir, Gosu::Color.new(@color.alpha*0.9,@color.red, @color.green, @color.blue), @x-draw_x_dir, @y-draw_y_dir, @color, @ex-draw_x_dir, @ey-draw_y_dir, Gosu::Color.new(@color.alpha*0.9,@color.red, @color.green, @color.blue))
+
     # Reset endpoint
     @ex = -999
     @ey = -999

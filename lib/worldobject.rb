@@ -124,7 +124,8 @@ class WorldObject
 
       #m2 = (ey-sy)/(ex-sx)
       #b2 = sy-(m2*sx)
-      Gosu.draw_line(sx, sy, @color, ex, ey, @color, 50)
+      #Gosu.draw_line(sx, sy, @color, ex, ey, @color, 50)
+      Gosu.draw_triangle(sx, sy, @color, ex, ey, @color, @center_x, @center_y, @color, 50)
       #Gosu.draw_line(sx, sy, @color, 0, b2, @color, 50) Slope line debugging
     end
   end
